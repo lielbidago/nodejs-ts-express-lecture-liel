@@ -62,4 +62,21 @@ describe('user feature', () => {
             );
     });
 
+    it('should return new user after creation', () => {
+        // return Promise of "PG Result object"
+        MockClient.query = () => Promise.resolve(
+            {rows:[{ id:1,fname:'test',password: 'Abbbbb', email:'test@tttt.com', lname:'thhhhs'}]}
+        );
+
+        return request(app)
+            .post('/user')
+            .send({fname:'test',password: 'Abbbbb', email:'test@tttt.com', lname:'thhhhs'})
+            .expect(200)
+            .then(res=>{
+                // expect(res.body).to.deep.equal({rows:[{ fname:'test',lname:'ts', email:'test@t'}]})
+                expect(res.body).to.have.property('id');
+            }
+            );
+    });
+
 });
